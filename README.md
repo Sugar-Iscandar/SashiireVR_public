@@ -15,8 +15,15 @@
 - このゲームは絶賛　**開発中**　です
 - 様々なライブラリや素材を使用しており、パブリックリポジトリに配置する過程でそれらを除外しています。
 
+## プレイしている様子
+https://youtu.be/AumI6g0QGQo
+
 ## プレビュー
-![キャプチャ12](https://user-images.githubusercontent.com/89596046/205509632-41ed984d-b083-431b-b951-5591e2e04e94.PNG)
+<img src= "https://user-images.githubusercontent.com/89596046/207137478-78320d55-ca3c-486d-ac3d-27631c0d634f.png" width="400px">
+<img src= "https://user-images.githubusercontent.com/89596046/207138130-600a8a81-6ef8-484c-a851-85c4326de786.png" width="400px">
+<img src= "https://user-images.githubusercontent.com/89596046/207138251-bc61d0e6-d650-4970-9b3e-b136f0bbc7ac.png" width="400px">
+<img src= "https://user-images.githubusercontent.com/89596046/207138271-0bc7bc5b-be54-46c6-8106-583c04d663c3.png" width="400px">
+
 
 
 # 権利表記

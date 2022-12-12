@@ -13,6 +13,8 @@ namespace Deliveries
         bool isSashiireTouched = false;
         bool isSashiirePlaced = false;
         float actualHoldTime = 0f;
+        Subject<Unit> sashiireSetSubject = new Subject<Unit>();
+        public IObservable<Unit> OnSashiireSet { get => sashiireSetSubject; }
         IDisposable updateStream;
 
         public bool IsSashiirePlaced
@@ -37,6 +39,7 @@ namespace Deliveries
             if (actualHoldTime >= holdTime)
             {
                 isSashiirePlaced = true;
+                sashiireSetSubject.OnNext(Unit.Default);
                 updateStream.Dispose();
             }
         }

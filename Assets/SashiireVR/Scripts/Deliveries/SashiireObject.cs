@@ -13,11 +13,12 @@ namespace Deliveries
         Rigidbody myRigidbody;
         FloatingObject thisFloatingSystem;
         Subject<float> collisionForceSubject = new Subject<float>();
-
         public IObservable<float> OnCollision
         {
             get => collisionForceSubject;
         }
+        Subject<Unit> firstGrabSubject = new Subject<Unit>();
+        public IObservable<Unit> OnFirstGrabbed { get => firstGrabSubject; }
 
         void Start()
         {
@@ -33,6 +34,7 @@ namespace Deliveries
             gameObject.AddComponent<FixedJoint>();
             fixedJoint = GetComponent<FixedJoint>();
             fixedJoint.connectedBody = handRigidbody;
+            firstGrabSubject.OnNext(Unit.Default);
         }
 
         public void OnReleased()

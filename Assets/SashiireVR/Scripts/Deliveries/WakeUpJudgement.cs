@@ -10,26 +10,17 @@ namespace Deliveries
     //Playerと女の子の距離を計測する
     public class WakeUpJudgement : MonoBehaviour
     {
-        [SerializeField]
-        [Header("起きてしまう衝撃力")]
-        float gameOverValueOfImpulse;
-        [SerializeField] 
-        [Range(0f, 1.0f)]
-        [Header("起きてしまう歩く速度")] 
-        float gameOverValueOfWalkSpeed;
-        [SerializeField]
-        [Header("女の子が反応する距離")]
-        float distanceWitchGirlResponsive;
-        [Space(10)]
+        //起きてしまう衝撃力
+        [SerializeField] float gameOverValueOfImpulse;
+        //起きてしまう歩行速度
+        [SerializeField] [Range(0f, 1.0f)] float gameOverValueOfWalkSpeed;
+        //女の子が反応する距離
+        [SerializeField] float distanceWitchGirlResponsive;
         [SerializeField] Transform playerTransform;
         [SerializeField] Transform girlTransform;
         float distanceBitweenPlayerAndGirl;
         Subject<Unit> judgementSubject = new Subject<Unit>();
-
-        public IObservable<Unit> OnWakeUp
-        {
-            get => judgementSubject;
-        }
+        public IObservable<Unit> OnWakeUp { get => judgementSubject; }
 
         void Update()
         {

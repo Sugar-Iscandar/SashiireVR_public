@@ -36,17 +36,28 @@ namespace GameSystems
             switch (scene)
             {
                 case Scenes.Title:
-                    SceneManager.LoadScene("TitleScene");
+                    StartCoroutine(LoadScene("TitleScene"));
                     break;
                 case Scenes.Darkness:
-                    SceneManager.LoadScene("DarknessScene");
+                    StartCoroutine(LoadScene("DarknessScene"));
                     break;
                 case Scenes.Sashiire:
-                    SceneManager.LoadScene("SashiireScene");
+                    StartCoroutine(LoadScene("SashiireScene"));
                     break;
                 case Scenes.Result:
-                    SceneManager.LoadScene("ResultScene");
+                    StartCoroutine(LoadScene("ResultScene"));
                     break;
+            }
+        }
+
+        IEnumerator LoadScene(string sceneName)
+        {
+            AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
+
+            while (!async.isDone)
+            {
+                
+                yield return null;
             }
         }
     }

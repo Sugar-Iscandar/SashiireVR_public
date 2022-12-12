@@ -12,31 +12,29 @@ namespace Titles
     {
         [SerializeField] Hand leftHand;
         [SerializeField] Hand rightHand;
-        IDisposable[] streamsHandTriggerEvent = new IDisposable[2];
+        Subject<Unit> titleStartSubject = new Subject<Unit>();
+        public IObservable<Unit> OnTitleSceneStarted { get => titleStartSubject; }
+        public IObservable<Unit> OnLeftHandTriggerButtonPressed
+        { 
+            get => leftHand.OnTriggerButtonPressedEvent; 
+        }
+        public IObservable<Unit> OnRightHandTriggerButtonPressed
+        {
+            get => rightHand.OnTriggerButtonPressedEvent;
+        }
 
         void Start()
         {
-            //左右の手のボタン入力イベントを購読する
-            streamsHandTriggerEvent[0] = leftHand.OnTriggerButtonPressedEvent
-                .Subscribe(_ => 
-                {
-                    GoToStory();
-                })
-                .AddTo(this);
-            streamsHandTriggerEvent[1] =  rightHand.OnTriggerButtonPressedEvent
-                .Subscribe(_ => 
-                {
-                    GoToStory();
-                })
-                .AddTo(this);
-                
+            titleStartSubject.OnNext(Unit.Default);
+            leftHand.Initialize();
+            rightHand.Initialize();
+            leftHand.IsRayCastActive = true;
+            rightHand.IsRayCastActive = true;
         }
 
-        void GoToStory()
+        public void GoToStory()
         {
-            //音を出してシーンの切り替えを行う
-            foreach (IDisposable disposable in streamsHandTriggerEvent)
-                disposable.Dispose();
+            Debugger.Log("シーン遷移開始");
             SceneChanger.Instance.ChangeScene(Scenes.Darkness);
         }
     }

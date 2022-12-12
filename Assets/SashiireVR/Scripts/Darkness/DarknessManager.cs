@@ -12,30 +12,31 @@ namespace Darkness
     {
         [SerializeField] Hand leftHand;
         [SerializeField] Hand rightHand;
-        IDisposable[] streamsHandTriggerEvent = new IDisposable[2];
+        Subject<string> darknessStartSubject = new Subject<string>();
+
+        public IObservable<string> OnDarknessStarted
+        {
+            get => darknessStartSubject;
+        }
 
         void Start()
         {
-            //左右の手のボタン入力イベントを購読する
-            streamsHandTriggerEvent[0] = leftHand.OnTriggerButtonPressedEvent
-                .Subscribe(_ => 
-                {
-                    ChangeToSashiireScene();
-                })
-                .AddTo(this);
-            streamsHandTriggerEvent[1] = rightHand.OnTriggerButtonPressedEvent
-                .Subscribe(_ => 
-                {
-                    ChangeToSashiireScene();
-                })
-                .AddTo(this);
-                
+            darknessStartSubject.OnNext(LoadSynopsisText());
+            leftHand.Initialize();
+            rightHand.Initialize();
+            leftHand.IsRayCastActive = true;
+            rightHand.IsRayCastActive = true;
         }
 
-        void ChangeToSashiireScene()
+        string LoadSynopsisText()
         {
-            foreach (IDisposable disposable in streamsHandTriggerEvent)
-                disposable.Dispose();
+            TextAsset textAsset = new TextAsset();
+            textAsset = Resources.Load("SynopsisText", typeof(TextAsset)) as TextAsset;
+            return textAsset.text;
+        }
+
+        public void ChangeToSashiireScene()
+        {
             SceneChanger.Instance.ChangeScene(Scenes.Sashiire);
         }
     }

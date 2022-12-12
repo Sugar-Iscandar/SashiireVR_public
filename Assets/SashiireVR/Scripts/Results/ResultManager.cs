@@ -5,6 +5,7 @@ using Players;
 using UniRx;
 using System;
 using GameSystems;
+using Utilities;
 
 namespace Results
 {
@@ -12,30 +13,34 @@ namespace Results
     {
         [SerializeField] Hand leftHand;
         [SerializeField] Hand rightHand;
-        IDisposable[] streamsHandTriggerEvent = new IDisposable[2];
+        Utilities.Results result;
+        public Utilities.Results Result { get => result; }
+        Subject<Unit> resultSceneStartSubject = new Subject<Unit>();
+        public IObservable<Unit> OnResultSceneStarted { get => resultSceneStartSubject; }
 
         void Start()
         {
-            //左右の手のボタン入力イベントを購読する
-            streamsHandTriggerEvent[0] = leftHand.OnTriggerButtonPressedEvent
-                .Subscribe(_ => 
-                {
-                    ChangeToSashiireScene();
-                })
-                .AddTo(this);
-            streamsHandTriggerEvent[1] = rightHand.OnTriggerButtonPressedEvent
-                .Subscribe(_ => 
-                {
-                    ChangeToSashiireScene();
-                })
-                .AddTo(this);
-                
+            resultSceneStartSubject.OnNext(Unit.Default);
+            leftHand.Initialize();
+            rightHand.Initialize();
+            leftHand.IsRayCastActive = false;
+            rightHand.IsRayCastActive = false;
+            result = ResultRecorder.Instance.Result;
         }
 
-        void ChangeToSashiireScene()
+        public void ActivateRay()
         {
-            foreach (IDisposable disposable in streamsHandTriggerEvent)
-                disposable.Dispose();
+            leftHand.IsRayCastActive = true;
+            rightHand.IsRayCastActive = true;
+        }
+
+        public void ChangeToSashiireScene()
+        {
+            SceneChanger.Instance.ChangeScene(Scenes.Sashiire);
+        }
+
+        public void ChangeToTitleScene()
+        {
             SceneChanger.Instance.ChangeScene(Scenes.Title);
         }
     }
